@@ -29,7 +29,7 @@ const Wrapper = styled(Box)`
   align-items: center;
   justify-content: center;
   background-color: white;
-  ${mobile({height:"480px", width: "69%" })}
+  ${mobile({height:"480px", width: "72%" })}
 `;
 
 const Title = styled('h1')`
