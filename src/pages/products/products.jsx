@@ -149,7 +149,7 @@ const Products = () => {
 
   useEffect(() => {
     if(user && isLoggedIn){
-      setUserId(user?._id)
+      setUserId(user._id)
     }
   },[user])
   
