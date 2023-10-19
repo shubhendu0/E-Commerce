@@ -23,6 +23,7 @@ const InputSearchBase = styled(InputBase)`
   paddingLeft: 10px;
   width: 100%;
   color: black;
+  ${mobile({ fontSize: "16px" })}
 `
 
 const SearchIconWrapper = styled(Box)`
