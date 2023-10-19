@@ -155,6 +155,7 @@ const Products = () => {
   
   useEffect(()=>{
     setCurrentPage(1);
+    console.log("render 1");
     dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
   },[])
 
@@ -162,9 +163,24 @@ const Products = () => {
     setProducts(productsArr);
   }, [productsArr]);
 
+  // useEffect(() => {
+  //   dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
+  // },[currentPage, wishlist, cart ])
+
+  useEffect(() => {
+    console.log("render due to currentPage");
+    dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
+  },[currentPage])
+
+  useEffect(() => {
+    console.log("render due to wishlist");
+    dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
+  },[wishlist ])
+
   useEffect(() => {
     dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
-  },[currentPage, wishlist, cart ])
+    console.log("render due to cart");
+  },[cart ])
 
   const handleRemove = (item) => {
     if(user._id && item._id){
