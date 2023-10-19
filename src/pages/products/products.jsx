@@ -173,13 +173,17 @@ const Products = () => {
   },[currentPage])
 
   useEffect(() => {
-    console.log("render due to wishlist");
-    dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
+    if(user && isLoggedIn){
+      console.log("render due to wishlist");
+      dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
+    }
   },[wishlist ])
 
   useEffect(() => {
-    dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
-    console.log("render due to cart");
+    if(user && isLoggedIn){
+      dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
+      console.log("render due to cart");
+    }
   },[cart ])
 
   const handleRemove = (item) => {
