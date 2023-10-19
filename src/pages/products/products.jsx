@@ -142,7 +142,7 @@ const Products = () => {
   const productsArr = useSelector(state=> state.product.products) || [];
   const wishlist = useSelector(state=> state.wishlist.wishlist) || [];
   const cart = useSelector(state=> state.cart.cart) || [];
-  const [userId, setUserId] = useState(user?._id || "651febd99e2c18bf877e4129");
+  const [userId, setUserId] = useState("651febd99e2c18bf877e4129");
   const [products, setProducts] = useState(productsArr);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterOpen, setFilterOpen] = useState(false);
