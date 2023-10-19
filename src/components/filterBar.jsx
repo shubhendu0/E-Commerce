@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { mobile } from "../responsive";
 import { styled, Box, Slider } from '@mui/material/';
 import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Select from 'react-select';
+import { getProducts } from "../redux/products/productActions";
 
 const Container = styled(Box)`
     width: 95%;
@@ -69,8 +71,11 @@ const ApplyButton = styled('button')`
 `
 
 const FilterBar = () => {
+    const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
+    const {user, isLoggedIn} = useSelector(state=> state.auth);
+    const userId = user?._id || "651febd99e2c18bf877e4129";
     const queryParams = new URLSearchParams(location.search);
     const qCategory = queryParams.get('category');
     const qBrand = queryParams.get('brand');
@@ -80,6 +85,12 @@ const FilterBar = () => {
     const [sortValue, setSortValue] = useState(3);
     const [sortBy, setSortBy] = useState("title");
     const [sortOrder, setSortOrder] = useState(1);
+
+    // useEffect(() => {
+    //     if(user && isLoggedIn){
+    //       setUserId(user._id)
+    //     }
+    //   },[user])
 
     const categoryOptions = [
         { value: 'all', label: 'All' },
@@ -137,6 +148,7 @@ const FilterBar = () => {
         newSearchParams.set('sortBy', sortBy);
         newSearchParams.set('sortOrder', sortOrder);
         navigate(`/products?${newSearchParams.toString()}`);
+        dispatch(getProducts(`?userId=${userId}&category=${category}&brand=${brand}&minPrice=${price[0]}&maxPrice=${price[1]}&sortBy=${sortBy}&sortOrder=${sortOrder}&page=1&limit=16`));
     }
 
     const handlePriceChange = (event, newValue) => {
