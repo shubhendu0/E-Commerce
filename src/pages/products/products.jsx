@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import FilterBar from "../../components/filterBar";
 import { getProducts } from "../../redux/products/productActions";
 
-
 const Container = styled(Box)`
   width: 99vw;
   display: flex;
@@ -142,21 +141,22 @@ const Products = () => {
   const productsArr = useSelector(state=> state.product.products) || [];
   const wishlist = useSelector(state=> state.wishlist.wishlist) || [];
   const cart = useSelector(state=> state.cart.cart) || [];
-  const [userId, setUserId] = useState("651febd99e2c18bf877e4129");
+  const userId = user?._id || "651febd99e2c18bf877e4129";
+  //const [userId, setUserId] = useState("651febd99e2c18bf877e4129");
   const [products, setProducts] = useState(productsArr);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterOpen, setFilterOpen] = useState(false);
 
-  useEffect(() => {
-    if(user && isLoggedIn){
-      setUserId(user._id)
-    }
-  },[])
+  // useEffect(() => {
+  //   if(user && isLoggedIn){
+  //     setUserId(user._id)
+  //   }
+  // },[])
   
   useEffect(()=>{
     setCurrentPage(1);
     dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
-  },[userId, qCategory, qBrand, qMinPrice, qMaxPrice, qSortBy, qSortOrder])
+  },[])
 
   useEffect(() => {
     setProducts(productsArr);
