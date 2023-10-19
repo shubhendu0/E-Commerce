@@ -139,18 +139,24 @@ const Products = () => {
     const qSortBy = queryParams.get('sortBy');
     const qSortOrder = queryParams.get('sortOrder');
   const {user, isLoggedIn} = useSelector(state=> state.auth);
-  const userId = user?._id || "651febd99e2c18bf877e4129";
   const productsArr = useSelector(state=> state.product.products) || [];
   const wishlist = useSelector(state=> state.wishlist.wishlist) || [];
   const cart = useSelector(state=> state.cart.cart) || [];
+  const [userId, setUserId] = useState(user?._id || "651febd99e2c18bf877e4129");
   const [products, setProducts] = useState(productsArr);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterOpen, setFilterOpen] = useState(false);
 
+  useEffect(() => {
+    if(user && isLoggedIn){
+      setUserId(user?._id)
+    }
+  },[user])
+  
   useEffect(()=>{
     setCurrentPage(1);
     dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
-  },[qCategory, qBrand, qMinPrice, qMaxPrice, qSortBy, qSortOrder])
+  },[userId, qCategory, qBrand, qMinPrice, qMaxPrice, qSortBy, qSortOrder])
 
   useEffect(() => {
     setProducts(productsArr);
