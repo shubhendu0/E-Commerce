@@ -151,7 +151,7 @@ const Products = () => {
     if(user && isLoggedIn){
       setUserId(user._id)
     }
-  },[user])
+  },[])
   
   useEffect(()=>{
     setCurrentPage(1);
