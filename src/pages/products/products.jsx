@@ -145,7 +145,7 @@ const Products = () => {
   const cart = useSelector(state=> state.cart.cart) || [];
   const [products, setProducts] = useState(productsArr);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filterOpen, setFilterOpen] = useState(true);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   useEffect(()=>{
     setCurrentPage(1);
