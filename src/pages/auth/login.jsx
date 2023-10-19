@@ -28,7 +28,7 @@ const Wrapper = styled(Box)`
   padding: 20px;
   z-index: 2;
   background-color: white;
-  ${mobile({ width: "60%" })}
+  ${mobile({ width: "65%" })}
 `;
 
 const Title = styled('h1')`
@@ -50,7 +50,7 @@ const Input = styled('input')`
   min-width: 35%;
   margin: 10px 0;
   padding: 10px;
-  ${mobile({ width: "70%" })}
+  ${mobile({ width: "75%" })}
 `;
 
 const Button = styled('button')`
