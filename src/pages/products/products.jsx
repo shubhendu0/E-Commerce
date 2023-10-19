@@ -158,7 +158,7 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
-  },[currentPage, ])
+  },[currentPage, wishlist, cart ])
 
   const handleRemove = (item) => {
     if(user._id && item._id){
