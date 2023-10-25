@@ -26,7 +26,7 @@ const FilterWrapper = styled(AppBar)`
   position: sticky;
   left: 0px;
   top: 70px;
-  height: 65vh;
+  height: 85vh;
   min-height: 350px;
   margin: 0;
   align-items: center;
@@ -75,6 +75,7 @@ const FilterButton = styled(AppBar)`
 const ProductWrapper = styled(Box)`
   display: flex;
   width: 82%;
+  min-height: 80vh;
   flex-direction: column;
   margin: 0px 0px;
   align-items: center;
