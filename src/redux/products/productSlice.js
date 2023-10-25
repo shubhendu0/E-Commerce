@@ -6,10 +6,11 @@ import {
   getProduct
 } from "./productActions";
 
-
 const initialState = {
-  searchedProducts:[],
+  searchedProducts: [],
   products : [],
+  hasMore: true,
+  pageLoading: false,
   product : {},
   isError: false,
   isSuccess: false,
@@ -17,11 +18,42 @@ const initialState = {
   message: "",
 };
 
+const uniqueList = (products) => {
+  const newArr = [...new Set(products)];
+  return newArr;
+}
+
+const mergeArraysAndRemoveDuplicates = (originalArray, newArray, key) => {
+   // Create a Map to store items by a unique key
+   const mergedMap = new Map();
+   // Add items from the original array to the Map
+   for (const item of originalArray) {
+     mergedMap.set(item[key], item);
+   }
+   // Add items from the newer array, replacing duplicates if found
+   for (const item of newArray) {
+     mergedMap.set(item[key], item);
+   } 
+   // Convert the Map values back to an array
+   const mergedArray = Array.from(mergedMap.values());
+   return mergedArray;
+}
+
 
 const productSlice = createSlice({
     name: "products",
     initialState,
-    reducers: {},
+    reducers: {
+      setPage: (state, action) => {
+        state.page = action.payload;
+      },
+      resetProducts: (state) => {
+        state.products = null;
+      },
+      setHasMore: (state) => {       
+        state.hasMore = true;
+      }
+    },
     extraReducers: (builder) => {
         builder
 
@@ -50,24 +82,27 @@ const productSlice = createSlice({
 
           //----------------------- Get ProductList --------------------//
           .addCase(getProducts.pending, (state) => {
-            state.isLoading = true;
+            state.pageLoading = true;
+            state.hasMore = true;
+            state.products = uniqueList(state.products)
           })
           .addCase(getProducts.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.pageLoading = false;
             state.isSuccess = true;
-            state.products = action.payload;
+            state.products = mergeArraysAndRemoveDuplicates(state.products, action.payload, '_id');
+            state.hasMore = action.payload.length < 16 ? false : true;
             // toast.success("Products Loaded",{
             //   toastId : "getProductList"
             // });
           })
           .addCase(getProducts.rejected, (state, action) => {
-            state.isLoading = false;
+            state.pageLoading = false;
             state.isError = true;
             state.message = action.payload;
-            state.products = null;
-            toast.error(action.payload,{
-              toastId : "error"
-            });
+            state.hasMore = false;
+            // toast.error(action.payload,{
+            //   toastId : "error"
+            // });
           })
 
 
@@ -95,4 +130,5 @@ const productSlice = createSlice({
     }
 })
 
+export const { setPage, resetProducts, setHasMore } = productSlice.actions;
 export default productSlice.reducer
