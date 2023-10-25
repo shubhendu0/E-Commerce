@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { styled, Box } from '@mui/material';
 import { mobile } from "../responsive";
+import { resetProducts } from "../redux/products/productSlice";
+import { useDispatch } from "react-redux";
 
 
 const Container = styled(Box)`
@@ -52,6 +54,7 @@ const Button = styled('button')`
 
 const CategoryItem = ({ item }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleNavigation = () => {
     const newSearchParams = new URLSearchParams();
@@ -61,6 +64,7 @@ const CategoryItem = ({ item }) => {
     newSearchParams.set('maxPrice', "50000");
     newSearchParams.set('sortBy', "title");
     newSearchParams.set('sortOrder', "1");
+    dispatch(resetProducts());
     navigate(`/products?${newSearchParams.toString()}`);
   }
 
