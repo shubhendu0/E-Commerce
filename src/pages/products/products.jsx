@@ -126,6 +126,15 @@ const OpenCart = styled(ShoppingCart)`
   cursor: pointer;
 `
 
+const MessageWrapper = styled(Box)`
+    margin-top: 90px;
+    width: 100%
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
 const Products = () => {
   const dispatch = useDispatch();
     const location = useLocation();
@@ -252,44 +261,50 @@ const Products = () => {
       </FilterWrapper>
 
       <ProductWrapper>
-          <Grid container spacing={2}>
-          {
-            products.map((item) => (
-            <Grid item xs={6} sm={4} md={4} lg={3} xl={1} key={item._id}> 
-            <StyledCard key={item._id}>
-              <ProductCard item={item} key={item._id} />
-              <ButtonWrapper>
-                  {
-                    item.isInWishlist
-                    ?
-                    <RemoveButton 
-                    style={{ fontSize: 18 }}
-                    onClick={() => handleRemove(item)}
-                    />
-                    :
-                    <AddButton
+        { 
+          productList.length > 0
+          ?       
+          (<Grid container spacing={2}>
+            {
+              products.map((item) => (
+              <Grid item xs={6} sm={4} md={4} lg={3} xl={1} key={item._id}> 
+              <StyledCard key={item._id}>
+                <ProductCard item={item} key={item._id} />
+                <ButtonWrapper>
+                    {
+                      item.isInWishlist
+                      ?
+                      <RemoveButton 
                       style={{ fontSize: 18 }}
-                      onClick={() => addToWishlist(item)}
-                    />
-                  }
-                  {
-                    item.isInCart
-                    ?
-                    <OpenCart 
-                    style={{ fontSize: 18 }}
-                    onClick={goToCart}  
-                    />
-                    :
-                    <AddCart 
-                    style={{ fontSize: 18 }}
-                    onClick={() => sendToCart(item)}  
-                    />             
-                  }
-                </ButtonWrapper>
-            </StyledCard>
-            </Grid>
-          ))}
-          </Grid>
+                      onClick={() => handleRemove(item)}
+                      />
+                      :
+                      <AddButton
+                        style={{ fontSize: 18 }}
+                        onClick={() => addToWishlist(item)}
+                      />
+                    }
+                    {
+                      item.isInCart
+                      ?
+                      <OpenCart 
+                      style={{ fontSize: 18 }}
+                      onClick={goToCart}  
+                      />
+                      :
+                      <AddCart 
+                      style={{ fontSize: 18 }}
+                      onClick={() => sendToCart(item)}  
+                      />             
+                    }
+                  </ButtonWrapper>
+              </StyledCard>
+              </Grid>
+            ))}
+          </Grid>)
+          :
+          <MessageWrapper>  🥹 SORRY, NO ITEMS TO SHOW. 🥹</MessageWrapper>
+        }
           {
             !filterOpen
             ? <FilterButton onClick={() => setFilterOpen(!filterOpen)}> Filter <FilterAlt/> </FilterButton>
