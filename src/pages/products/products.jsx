@@ -306,7 +306,7 @@ const Products = () => {
           <MessageWrapper>  🥹 SORRY, NO ITEMS TO SHOW. 🥹</MessageWrapper>
         }
           {
-            !filterOpen
+            !filterOpen && products.length > 0
             ? <FilterButton onClick={() => setFilterOpen(!filterOpen)}> Filter <FilterAlt/> </FilterButton>
             : null
           }
