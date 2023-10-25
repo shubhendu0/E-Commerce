@@ -262,7 +262,7 @@ const Products = () => {
 
       <ProductWrapper>
         { 
-          productList.length > 0
+          products.length > 0
           ?       
           (<Grid container spacing={2}>
             {
