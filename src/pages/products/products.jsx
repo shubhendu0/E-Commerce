@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { mobile } from "../../responsive";
-import { styled, AppBar, Box, Grid, Card, Pagination, PaginationItem } from '@mui/material/';
-import { ArrowBack, ArrowForward, FilterAlt, Cancel, Favorite, FavoriteBorder, AddShoppingCart, ShoppingCart, } from "@mui/icons-material";
+import { styled,CircularProgress, AppBar, Box, Grid, Card, } from '@mui/material/';
+import { FilterAlt, Cancel, Favorite, FavoriteBorder, AddShoppingCart, ShoppingCart, } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/productCard";
@@ -10,9 +10,13 @@ import { addToCart } from "../../redux/cart/cartActions";
 import { toast } from "react-toastify";
 import FilterBar from "../../components/filterBar";
 import { getProducts } from "../../redux/products/productActions";
+import { resetProducts } from '../../redux/products/productSlice';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 
 const Container = styled(Box)`
   width: 99vw;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -21,8 +25,8 @@ const Container = styled(Box)`
 
 const FilterWrapper = styled(AppBar)`
   display: flex;
-  width: 18%;
-  width: 240px;
+  width: 18vw;
+  min-width: 230px;
   position: sticky;
   left: 0px;
   top: 70px;
@@ -136,8 +140,18 @@ const MessageWrapper = styled(Box)`
     justify-content: space-between;
 `;
 
+const LoadingAnimation = styled(CircularProgress)`
+  width : 100vw;
+  height : 150px;
+  position: fixed;
+  left: 49%;
+  top: 65%;
+  color: #2196f3;
+  align-items: center;
+`
+
 const Products = () => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
@@ -148,53 +162,61 @@ const Products = () => {
     const qSortBy = queryParams.get('sortBy');
     const qSortOrder = queryParams.get('sortOrder');
   const {user, isLoggedIn} = useSelector(state=> state.auth);
-  const productsArr = useSelector(state=> state.product.products) || [];
+  const products = useSelector(state=> state.product.products) || [];
+  const { hasMore } = useSelector(state=> state.product);
   const wishlist = useSelector(state=> state.wishlist.wishlist) || [];
   const cart = useSelector(state=> state.cart.cart) || [];
   const userId = user?._id || "651febd99e2c18bf877e4129";
-  //const [userId, setUserId] = useState("651febd99e2c18bf877e4129");
-  const [products, setProducts] = useState(productsArr);
+  const [productList, setProductList] = useState(products);
+  const [listLength, setListLength] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filterOpen, setFilterOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(true);
 
-  // useEffect(() => {
-  //   if(user && isLoggedIn){
-  //     setUserId(user._id)
-  //   }
-  // },[])
-  
   useEffect(()=>{
-    setCurrentPage(1);
-    console.log("render 1");
+    dispatch(resetProducts());
     dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
   },[])
 
   useEffect(() => {
-    setProducts(productsArr);
-  }, [productsArr]);
-
-  // useEffect(() => {
-  //   dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
-  // },[currentPage, wishlist, cart ])
+    setCurrentPage(1)
+  },[qCategory, qBrand])
 
   useEffect(() => {
-    console.log("render due to currentPage");
+    setProductList(products);
+    setListLength(productList.length);
+  },[products])
+
+  useEffect(() => {
+    if(user && isLoggedIn){
+      dispatch(resetProducts())
+      let i = 1;
+      while(i<= currentPage){
+        dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${i}&limit=16`));
+        i++;
+      }
+    }   
+  },[wishlist])
+
+  useEffect(() => {
+    if(user && isLoggedIn){
+      dispatch(resetProducts())
+      let i = 1;
+      while(i<= currentPage){
+        dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${i}&limit=16`));
+        i++;
+      }
+    }    
+  },[cart])
+
+  useEffect(() => {
     dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
   },[currentPage])
 
-  useEffect(() => {
-    if(user && isLoggedIn){
-      console.log("render due to wishlist");
-      dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
-    }
-  },[wishlist ])
-
-  useEffect(() => {
-    if(user && isLoggedIn){
-      dispatch(getProducts(`?userId=${userId}&category=${qCategory}&brand=${qBrand}&minPrice=${qMinPrice}&maxPrice=${qMaxPrice}&sortBy=${qSortBy}&sortOrder=${qSortOrder}&page=${currentPage}&limit=16`));
-      console.log("render due to cart");
-    }
-  },[cart ])
+  const fetchNextPage = () =>{ 
+    if(hasMore){
+      setCurrentPage(currentPage+1)
+    }      
+  }
 
   const handleRemove = (item) => {
     if(user._id && item._id){
@@ -261,14 +283,27 @@ const Products = () => {
         }
       </FilterWrapper>
 
-      <ProductWrapper>
+      <ProductWrapper> 
         { 
-          products.length > 0
+          productList.length > 0
           ?       
-          (<Grid container spacing={2}>
-            {
-              products.map((item) => (
-              <Grid item xs={6} sm={4} md={4} lg={3} xl={1} key={item._id}> 
+          (
+          <InfiniteScroll
+          style={{ minWidth: "75vw" }}
+          dataLength={listLength}
+          next={fetchNextPage}
+          hasMore={hasMore}
+          loader={<LoadingAnimation/>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>😥 List has ended. 😥 </b>
+            </p>
+          }
+          >
+          <Grid container spacing={2}>
+          {
+            productList.map((item) => (
+            <Grid item xs={6} sm={4} md={4} lg={3} xl={1} key={item._id}> 
               <StyledCard key={item._id}>
                 <ProductCard item={item} key={item._id} />
                 <ButtonWrapper>
@@ -299,32 +334,20 @@ const Products = () => {
                       />             
                     }
                   </ButtonWrapper>
-              </StyledCard>
+                </StyledCard>
               </Grid>
-            ))}
-          </Grid>)
+            ))}        
+          </Grid>
+          </InfiniteScroll>  
+          )
           :
           <MessageWrapper>  🥹 SORRY, NO ITEMS TO SHOW. 🥹</MessageWrapper>
         }
-          {
-            !filterOpen && products.length > 0
+        {
+            !filterOpen && productList.length > 0
             ? <FilterButton onClick={() => setFilterOpen(!filterOpen)}> Filter <FilterAlt/> </FilterButton>
             : null
-          }
-        <Pagination 
-        sx={{
-          marginTop : "70px"
-        }}
-        count={10}        
-        page={currentPage}
-        onChange={(event, page) => setCurrentPage(page)}
-        renderItem={(item) => (
-          <PaginationItem
-            slots={{ previous: ArrowBack, next: ArrowForward }}
-            {...item}
-          />
-        )}
-        />     
+        }
       </ProductWrapper>   
     </Container>
   );
