@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Select from 'react-select';
 import { getProducts } from "../redux/products/productActions";
+import { resetProducts, setHasMore } from "../redux/products/productSlice";
 
 const Container = styled(Box)`
     width: 95%;
@@ -86,12 +87,6 @@ const FilterBar = () => {
     const [sortBy, setSortBy] = useState("title");
     const [sortOrder, setSortOrder] = useState(1);
 
-    // useEffect(() => {
-    //     if(user && isLoggedIn){
-    //       setUserId(user._id)
-    //     }
-    //   },[user])
-
     const categoryOptions = [
         { value: 'all', label: 'All' },
         { value: 'shirts', label: 'Shirts' },
@@ -147,6 +142,8 @@ const FilterBar = () => {
         newSearchParams.set('maxPrice', price[1]);
         newSearchParams.set('sortBy', sortBy);
         newSearchParams.set('sortOrder', sortOrder);
+        dispatch(resetProducts());
+        dispatch(setHasMore());
         navigate(`/products?${newSearchParams.toString()}`);
         dispatch(getProducts(`?userId=${userId}&category=${category}&brand=${brand}&minPrice=${price[0]}&maxPrice=${price[1]}&sortBy=${sortBy}&sortOrder=${sortOrder}&page=1&limit=16`));
     }
