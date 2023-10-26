@@ -179,7 +179,7 @@ const Products = () => {
 
   useEffect(() => {
     setCurrentPage(1)
-  },[qCategory, qBrand])
+  },[qCategory, qBrand, qSortBy,qSortOrder, qMinPrice, qMaxPrice])
 
   useEffect(() => {
     setProductList(products);
