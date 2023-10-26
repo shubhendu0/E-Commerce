@@ -82,7 +82,7 @@ const FilterBar = () => {
     const qBrand = queryParams.get('brand');
     const [category, setCategory] = useState(qCategory);
     const [brand, setBrand] = useState(qBrand);
-    const [price, setPrice] = useState([0, 10000]);
+    const [price, setPrice] = useState([0, 50000]);
     const [sortValue, setSortValue] = useState(3);
     const [sortBy, setSortBy] = useState("title");
     const [sortOrder, setSortOrder] = useState(1);
