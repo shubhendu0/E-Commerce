@@ -17,3 +17,6 @@ Click on this link to visit website => https://fashion-store-mml3.onrender.com/
 
 ## Why this project was chosen ?  
 >Wanted to improve my knowledge about REST-Api, ReduxToolkit, MUI, Nodejs, MongoDb, React libraries etc. This project includes all these things.
+
+## Notes 
+>The website takes time(approx 1~2 minutes) to connect with server so be patient.
