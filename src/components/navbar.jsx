@@ -54,6 +54,7 @@ const Logo = styled('img')`
 
 const Right = styled(Box)`
   display: flex;
+  margin-right: 10px;
   align-items: center;
   justify-content: flex-end;
   ${mobile({ visibility: "hidden" })}
@@ -62,6 +63,7 @@ const Right = styled(Box)`
 const MenuItem = styled(Box)`
   font-size: 14px;
   padding: 0px 0px;
+  text-align: center;
   margin-left: 10px;
   cursor: pointer;
 `;
