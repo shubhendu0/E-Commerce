@@ -32,6 +32,7 @@ const Container = styled(Box)`
   margin: 0px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   transition: all 0.2s ease;
 `;
 
