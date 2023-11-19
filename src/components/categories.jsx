@@ -27,7 +27,7 @@ const Wrapper = styled(Box)`
 
 const StyledCard = styled(Card)(({ theme }) => ({
   padding: "0px",
-  margin: "20px 16px",
+  margin: "20px 12px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
