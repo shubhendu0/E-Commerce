@@ -28,7 +28,7 @@ axios.defaults.withCredentials = true;
 
 const Container = styled(Box)`
   width: 100vw;
-  height: 100vh;
+  height: auto;
   margin: 0px;
   display: flex;
   z-index: 3;
