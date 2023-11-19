@@ -12,7 +12,7 @@ import Search from "./searchBar";
 
 const Container = styled(AppBar)`
   height: 60px;
-  width: 100vw;  
+  width: 99vw;  
   margin: 0px;
   z-index: 3;
   position: sticky;
@@ -33,6 +33,7 @@ const Wrapper = styled(Box)`
 
 const Left = styled(Box)`
   padding: 5px 0px;
+  margin-left: 10px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
