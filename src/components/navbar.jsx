@@ -12,7 +12,7 @@ import Search from "./searchBar";
 
 const Container = styled(AppBar)`
   height: 60px;
-  width: 99vw;  
+  width: 100vw;  
   z-index: 3;
   position: sticky;
   background-color: white;
@@ -22,7 +22,7 @@ const Container = styled(AppBar)`
 const Wrapper = styled(Box)`
   height: 60px;
   width: 100%;
-  padding: 10px 10px; 
+  padding: 10px 0px; 
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -60,7 +60,7 @@ const Right = styled(Box)`
 const MenuItem = styled(Box)`
   font-size: 14px;
   padding: 0px 0px;
-  margin-left: 15px;
+  margin-left: 10px;
   cursor: pointer;
 `;
 
