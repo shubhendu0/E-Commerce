@@ -31,8 +31,9 @@ const Container = styled(Box)`
   height: auto;
   margin: 0px;
   display: flex;
+  flex-direction: column;
   z-index: 3;
-  ${'' /* transition: all 0.2s ease; */}
+  transition: all 0.2s ease;
 `;
 
 const App = () => {
@@ -59,10 +60,9 @@ const App = () => {
           theme="dark"
           limit={2}
       />
-      
+      <Container>
         <Router>      
-          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-            <Container>
+          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>           
             <Navbar/>
             <Routes>
               <Route exact path="/" element={<Home/>}/>
@@ -79,11 +79,10 @@ const App = () => {
               </Route> 
             </Routes>
             <Newsletter/>
-            <Footer/>
-            </Container>
+            <Footer/>          
           </GoogleOAuthProvider>        
         </Router>
-      
+      </Container>
     </ThemeProvider>
   );
 };
