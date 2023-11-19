@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
+import { createTheme, ThemeProvider, CssBaseline, styled, Box } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import axios from 'axios';
 import Navbar from './components/navbar';
@@ -26,6 +26,16 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 axios.defaults.withCredentials = true;
 
+const Container = styled(Box)`
+  width: 100vw;
+  height: 100vh;
+  margin: 0px;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  transition: all 0.2s ease;
+`;
+
 const App = () => {
   const dispatch = useDispatch();
   const { user, isLoggedIn} = useSelector((state) => state.auth);
@@ -38,41 +48,42 @@ const App = () => {
     } 
   }, [isLoggedIn, user])
   
-
   return (
-    <Router>
-      <ToastContainer 
-        position='top-right'
-        autoClose={500}
-        newestOnTop
-        pauseOnHover
-        closeOnClick
-        theme="dark"
-        limit={2}
-      />
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline/> 
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-        <Navbar/>
-        <Routes>
-          <Route exact path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/>
-          <Route path="/*" element={<NotFound/>}/>                  
-          <Route path="/products/" element={<Products/>}/>
-          <Route path="/product/:id" element={<Product/>}/>
-          <Route element={<ProtectedRoute/>} >
-            <Route path="/profile" element={<Profile/>}/>
-            <Route path="/wishlist" element={<Wishlist/>}/>
-            <Route path="/cart" element={<Cart/>}/>
-            <Route path="/success" element={<Success/>}/>
-          </Route> 
-        </Routes>
-        <Newsletter/>
-        <Footer/>
-      </GoogleOAuthProvider>
-      </ThemeProvider>
-    </Router>
+      <ToastContainer 
+          position='top-right'
+          autoClose={500}
+          newestOnTop
+          pauseOnHover
+          closeOnClick
+          theme="dark"
+          limit={2}
+      />
+      <Container>
+        <Router>      
+          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <Navbar/>
+            <Routes>
+              <Route exact path="/" element={<Home/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/register" element={<Register/>}/>
+              <Route path="/*" element={<NotFound/>}/>                  
+              <Route path="/products/" element={<Products/>}/>
+              <Route path="/product/:id" element={<Product/>}/>
+              <Route element={<ProtectedRoute/>} >
+                <Route path="/profile" element={<Profile/>}/>
+                <Route path="/wishlist" element={<Wishlist/>}/>
+                <Route path="/cart" element={<Cart/>}/>
+                <Route path="/success" element={<Success/>}/>
+              </Route> 
+            </Routes>
+            <Newsletter/>
+            <Footer/>
+          </GoogleOAuthProvider>        
+        </Router>
+      </Container>
+    </ThemeProvider>
   );
 };
 
