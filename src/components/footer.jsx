@@ -22,7 +22,7 @@ import { mobile } from "../responsive";
   const Left = styled(Box)`
     display: flex;
     flex-direction: column;
-    padding: 0px 30px;
+    padding: 0px 0px;
     width: 30vw;
     ${mobile({ width : "99vw" })}
   `;
