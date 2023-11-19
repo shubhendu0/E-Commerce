@@ -32,7 +32,6 @@ const Container = styled(Box)`
   margin: 0px;
   display: flex;
   flex-direction: column;
-  z-index: 3;
   transition: all 0.2s ease;
 `;
 
