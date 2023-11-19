@@ -59,9 +59,10 @@ const App = () => {
           theme="dark"
           limit={2}
       />
-      <Container>
+      
         <Router>      
           <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <Container>
             <Navbar/>
             <Routes>
               <Route exact path="/" element={<Home/>}/>
@@ -79,9 +80,10 @@ const App = () => {
             </Routes>
             <Newsletter/>
             <Footer/>
+            </Container>
           </GoogleOAuthProvider>        
         </Router>
-      </Container>
+      
     </ThemeProvider>
   );
 };
