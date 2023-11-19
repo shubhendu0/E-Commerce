@@ -31,8 +31,7 @@ const Container = styled(Box)`
   height: 100vh;
   margin: 0px;
   display: flex;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  z-index: 3;
   transition: all 0.2s ease;
 `;
 
