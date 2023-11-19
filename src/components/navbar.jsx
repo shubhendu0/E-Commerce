@@ -30,6 +30,7 @@ const Wrapper = styled(Box)`
 `;
 
 const Left = styled(Box)`
+  width: 33vw;
   padding: 5px 0px;
   display: flex;
   justify-content: flex-start;
@@ -37,7 +38,7 @@ const Left = styled(Box)`
 `;
 
 const Center = styled(Box)`
-  width: 30vw;
+  width: 33vw;
   text-align: center;
   align-items: center;
   ${mobile({ width:"61vw", position: "absolute", right:"0px" })}
@@ -51,6 +52,7 @@ const Logo = styled('img')`
 `
 
 const Right = styled(Box)`
+  width: 33vw;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -60,7 +62,7 @@ const Right = styled(Box)`
 const MenuItem = styled(Box)`
   font-size: 14px;
   padding: 0px 0px;
-  margin-left: 10px;
+  margin-left: 0px;
   cursor: pointer;
 `;
 
